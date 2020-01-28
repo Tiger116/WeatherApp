@@ -10,7 +10,7 @@ import org.kodein.di.Kodein
 import org.kodein.di.generic.instance
 
 class MainScreenViewModel(kodein: Kodein) : KodeinViewModel(kodein) {
-//    private val weatherRepository: WeatherRepository by instance<WeatherRepository>()
+    private val weatherRepository: WeatherRepository by instance()
 
     private val isLoadingInternal = MutableLiveData<Boolean>()
     val isLoadingLiveData = isLoadingInternal.immutable()
@@ -23,11 +23,11 @@ class MainScreenViewModel(kodein: Kodein) : KodeinViewModel(kodein) {
         launch {
             try {
                 val location = Coordinate(30.392231, 59.87092)
-//                val currentWeather = weatherRepository.getCurrentWeatherByLocation(
-//                    location.latitude,
-//                    location.longitude
-//                )
-//                currentWeatherInternal.postValue(currentWeather)
+                val currentWeather = weatherRepository.getCurrentWeatherByLocation(
+                    location.latitude,
+                    location.longitude
+                )
+                currentWeatherInternal.postValue(currentWeather)
             } catch (exception: Exception) {
                 exception.printStackTrace()
             } finally {
