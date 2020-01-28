@@ -13,7 +13,7 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.navigation.NavigationView
 import com.zhuravlev.vitaly.weatherapp.R
-import com.zhuravlev.vitaly.weatherapp.base.KodeinActivity
+import com.zhuravlev.vitaly.weatherapp.base.kodein.KodeinActivity
 
 class MainActivity : KodeinActivity(), NavigationView.OnNavigationItemSelectedListener {
 
@@ -29,7 +29,7 @@ class MainActivity : KodeinActivity(), NavigationView.OnNavigationItemSelectedLi
 
     private fun setupNavigationView() {
         navController = findNavController(R.id.nav_host_fragment)
-        drawerLayout = findViewById<DrawerLayout>(R.id.drawer_layout)
+        drawerLayout = findViewById(R.id.drawer_layout)
         val navView = findViewById<NavigationView>(R.id.navigation_view)
 
         navView.setupWithNavController(navController)
@@ -38,13 +38,14 @@ class MainActivity : KodeinActivity(), NavigationView.OnNavigationItemSelectedLi
         val toolbar: Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        supportActionBar?.setDisplayShowHomeEnabled(true)
 
         val appBarConfiguration = AppBarConfiguration(navController.graph, drawerLayout)
         setupActionBarWithNavController(navController, appBarConfiguration)
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
+        item.isChecked = true
+        drawerLayout.closeDrawer(GravityCompat.START)
         return when (item.itemId) {
             R.id.menu_choose_city -> {
                 true
@@ -56,14 +57,13 @@ class MainActivity : KodeinActivity(), NavigationView.OnNavigationItemSelectedLi
         }
     }
 
-    override fun onSupportNavigateUp(): Boolean {
-        return NavigationUI.navigateUp(navController, drawerLayout)
-    }
+    override fun onSupportNavigateUp(): Boolean =
+        NavigationUI.navigateUp(navController, drawerLayout)
+
 
     override fun onBackPressed() =
         if (drawerLayout.isDrawerOpen(GravityCompat.START))
             drawerLayout.closeDrawer(GravityCompat.START)
         else
             super.onBackPressed()
-
 }

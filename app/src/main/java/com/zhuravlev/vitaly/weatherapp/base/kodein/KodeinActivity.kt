@@ -1,4 +1,4 @@
-package com.zhuravlev.vitaly.weatherapp.base
+package com.zhuravlev.vitaly.weatherapp.base.kodein
 
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
@@ -11,6 +11,7 @@ import org.kodein.di.generic.instance
 abstract class KodeinActivity : AppCompatActivity(), CoroutineScope by MainScope(), KodeinAware {
 
     final override val kodein by closestKodein()
+
     private val viewModelFactory: KodeinViewModelFactory by instance()
 
     protected fun <T : KodeinViewModel> provide(viewModelClass: Class<T>): T {

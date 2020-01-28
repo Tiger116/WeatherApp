@@ -1,4 +1,4 @@
-package com.zhuravlev.vitaly.weatherapp.base
+package com.zhuravlev.vitaly.weatherapp.base.kodein
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

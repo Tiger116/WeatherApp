@@ -3,6 +3,6 @@ package com.zhuravlev.vitaly.weatherapp.model
 import com.zhuravlev.vitaly.weatherapp.model.weather.weatherModule
 import org.kodein.di.Kodein
 
-val modelModule =  Kodein.Module("Model") {
+val modelModule = Kodein.Module("Model") {
     importOnce(weatherModule)
 }

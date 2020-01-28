@@ -1,4 +1,4 @@
-package com.zhuravlev.vitaly.weatherapp.base
+package com.zhuravlev.vitaly.weatherapp.base.kodein
 
 import android.content.Context
 import androidx.annotation.CallSuper
@@ -20,13 +20,14 @@ abstract class KodeinFragment : Fragment(), CoroutineScope by MainScope() {
 
     private var viewModelFactory: KodeinViewModelFactory by Delegates.notNull()
 
-    val kActivity get() = requireActivity() as KodeinActivity
+    val kodeinActivity get() = requireActivity() as KodeinActivity
 
     override val coroutineContext: CoroutineContext = Dispatchers.IO + SupervisorJob()
 
     @CallSuper
     override fun onAttach(context: Context) {
         super.onAttach(context)
+
         val kodein = (activity as KodeinAware).kodein
         viewModelFactory = kodein.direct.instance()
     }

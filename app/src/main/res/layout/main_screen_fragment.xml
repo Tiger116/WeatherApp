@@ -13,7 +13,7 @@
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:refreshing="@{viewModel.isLoading}"
+        app:refreshing="@{viewModel.isLoadingLiveData}"
         tools:context=".ui.main_screen.MainScreenFragment">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -21,9 +21,10 @@
             android:layout_height="match_parent">
 
             <TextView
+                android:id="@+id/current_weather_text_view"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:text="Hello" />
+                android:text="Hello World" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
