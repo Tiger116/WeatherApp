@@ -7,7 +7,6 @@ import org.kodein.di.Kodein
 /**
  * The factory allows to create viewModels with built-in [Kodein] instance
  * */
-@Suppress("UNCHECKED_CAST")
 class KodeinViewModelFactory(private val kodein: Kodein) : ViewModelProvider.Factory {
 
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {

@@ -3,4 +3,8 @@
     <string name="main_screen_label">Главная</string>
     <string name="menu_settings_title">Настройки</string>
     <string name="menu_choose_city">Выбрать город</string>
+    <string name="ok">OK</string>
+    <string name="undefined_error_message">Произошла неизвестная ошибка. Повторите попытку позже</string>
+    <string name="current_weather_mask">%.0f °</string>
+    <string name="current_weather_wind_mask">%.0f m/s</string>
 </resources>

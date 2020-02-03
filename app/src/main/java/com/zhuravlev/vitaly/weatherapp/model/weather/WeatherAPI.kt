@@ -9,8 +9,7 @@ interface WeatherAPI {
     @GET("/data/2.5/weather")
     suspend fun getCurrentWeatherByLocation(
         @Query("lat") lat: Double,
-        @Query("lon") lon: Double,
-        @Query("APPID") appId: String
+        @Query("lon") lon: Double
     ): CurrentWeather
 
 }
