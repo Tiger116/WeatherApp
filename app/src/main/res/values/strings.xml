@@ -5,6 +5,8 @@
     <string name="menu_choose_city">Выбрать город</string>
     <string name="ok">OK</string>
     <string name="undefined_error_message">Произошла неизвестная ошибка. Повторите попытку позже</string>
-    <string name="current_weather_mask">%.0f °</string>
-    <string name="current_weather_wind_mask">%.0f m/s</string>
+    <string name="current_weather_mask">%.0f°</string>
+    <string name="wind_speed_mask">%.0f m/s</string>
+    <string name="temperature_min_max_mask">%.0f°..%.0f°</string>
+    <string name="temperature_feels_like_mask">Ощущается как %.0f°</string>
 </resources>

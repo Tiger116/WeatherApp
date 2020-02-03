@@ -11,6 +11,9 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import org.kodein.di.Kodein
 import org.kodein.di.generic.instance
+import java.text.SimpleDateFormat
+import java.util.*
+import java.util.concurrent.TimeUnit
 
 class MainScreenViewModel(kodein: Kodein) : KodeinViewModel(kodein) {
     private val weatherRepository: WeatherRepository by instance()
@@ -25,6 +28,14 @@ class MainScreenViewModel(kodein: Kodein) : KodeinViewModel(kodein) {
             if (atom is Atom.Success)
                 atom.content
             else null
+        }
+
+    val dateLiveData =
+        Transformations.map(currentWeatherLiveData) { atom: Atom<CurrentWeather> ->
+            if (atom is Atom.Success) {
+                val timestamp = Date(TimeUnit.SECONDS.toMillis(atom.content.dateTimestamp))
+                SimpleDateFormat("dd MMM HH:mm", Locale.getDefault()).format(timestamp)
+            } else null
         }
 
     fun getCurrentWeather() {

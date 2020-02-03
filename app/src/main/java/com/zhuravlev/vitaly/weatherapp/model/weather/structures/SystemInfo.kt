@@ -1,6 +1,6 @@
 package com.zhuravlev.vitaly.weatherapp.model.weather.structures
 
-data class Sys(
+data class SystemInfo(
     val type: Int,
     val id: Int,
     val message: Double,

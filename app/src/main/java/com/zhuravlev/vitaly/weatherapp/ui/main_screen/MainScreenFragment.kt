@@ -42,7 +42,7 @@ class MainScreenFragment : KodeinFragment() {
             when (it) {
                 is Atom.Success -> {
                     val currentWeather = it.content
-                    kodeinActivity.supportActionBar?.title = currentWeather.name
+                    kodeinActivity.supportActionBar?.title = currentWeather.placeName
                 }
                 is Atom.Error -> {
                     val exception = it.throwable

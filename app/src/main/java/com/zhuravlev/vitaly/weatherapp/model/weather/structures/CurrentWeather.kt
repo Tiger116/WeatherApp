@@ -11,10 +11,15 @@ data class CurrentWeather(
     val visibility: Int,
     val wind: Wind,
     val clouds: Clouds,
-    val dt: Long,
-    val sys: Sys,
+    @SerializedName("dt")
+    val dateTimestamp: Long,
+    @SerializedName("sys")
+    val systemInfo: SystemInfo,
     val timezone: Int,
-    val id: Int,
-    val name: String,
-    val cod: Int
+    @SerializedName("id")
+    val cityId: Int,
+    @SerializedName("name")
+    val placeName: String,
+    @SerializedName("cod")
+    val code: Int
 )
