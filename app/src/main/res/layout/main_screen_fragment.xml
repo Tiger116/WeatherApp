@@ -75,7 +75,16 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@id/current_weather_wind"
                     app:layout_constraintTop_toBottomOf="@id/current_weather_value"
-                    tools:text="Cloudly" />
+                    tools:text="Rain" />
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    app:icon="@{weather.weather.get(0).icon}"
+                    app:layout_constraintDimensionRatio="W,1:1"
+                    app:layout_constraintTop_toBottomOf="@id/current_weather_wind"
+                    app:placeholder="@{@drawable/ic_launcher_foreground}"
+                    tools:src="@drawable/ic_launcher_foreground" />
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.core.widget.NestedScrollView>
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

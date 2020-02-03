@@ -24,6 +24,11 @@ class MainScreenFragment : KodeinFragment() {
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
 
+        binding.swipeRefreshLayout.setColorSchemeResources(
+            R.color.colorPrimary,
+            R.color.colorPrimaryDark
+        )
+
         return binding.root
     }
 

@@ -11,5 +11,4 @@ interface WeatherAPI {
         @Query("lat") lat: Double,
         @Query("lon") lon: Double
     ): CurrentWeather
-
 }
