@@ -1,20 +1,22 @@
 package com.zhuravlev.vitaly.weatherapp.base.databinding
 
 import android.graphics.drawable.Drawable
+import android.util.Log
 import android.widget.ImageView
 import androidx.databinding.BindingAdapter
+import com.squareup.picasso.Callback
 import com.squareup.picasso.Picasso
 import com.zhuravlev.vitaly.weatherapp.base.Constants
 
 @BindingAdapter(
     "icon",
-    "placeholder",
+    "error",
     requireAll = false
 )
 fun bindingLoadIcon(
     imageView: ImageView,
     icon: String?,
-    placeholder: Drawable?
+    error: Drawable?
 ) {
     when {
         icon != null -> {
@@ -22,13 +24,19 @@ fun bindingLoadIcon(
                 .load("${Constants.OPEN_WEATHER_ICON_URL}$icon@2x.png")
                 .fit()
                 .also {
-                    placeholder?.let { placeholder ->
-                        it.placeholder(placeholder)
-                        it.error(placeholder)
-                    }
+                    error?.let { placeholder -> it.error(placeholder) }
                 }
-                .into(imageView)
+                .into(imageView, object : Callback {
+                    override fun onSuccess() {
+                        Log.d("BindingAdapter", "onSuccess")
+                    }
+
+                    override fun onError(e: Exception?) {
+                        Log.d("BindingAdapter", "onError: ")
+                        e?.printStackTrace()
+                    }
+                })
         }
-        else -> imageView.setImageDrawable(placeholder)
+        else -> imageView.setImageDrawable(error)
     }
 }

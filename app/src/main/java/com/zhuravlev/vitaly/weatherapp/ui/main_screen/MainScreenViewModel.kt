@@ -1,6 +1,7 @@
 package com.zhuravlev.vitaly.weatherapp.ui.main_screen
 
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Transformations
 import com.zhuravlev.vitaly.weatherapp.base.atom.Atom
 import com.zhuravlev.vitaly.weatherapp.base.kodein.KodeinViewModel
 import com.zhuravlev.vitaly.weatherapp.model.weather.WeatherRepository
@@ -16,17 +17,21 @@ class MainScreenViewModel(kodein: Kodein) : KodeinViewModel(kodein) {
 
     private var currentWeatherJob: Job? = null
 
-    private val isLoadingInternal = MutableLiveData<Boolean>()
-    val isLoadingLiveData = isLoadingInternal.immutable()
-
     private val currentWeatherInternal = MutableLiveData<Atom<CurrentWeather>>()
     val currentWeatherLiveData = currentWeatherInternal.immutable()
+
+    val weatherLiveData =
+        Transformations.map(currentWeatherLiveData) { atom: Atom<CurrentWeather> ->
+            if (atom is Atom.Success)
+                atom.content
+            else null
+        }
 
     fun getCurrentWeather() {
         currentWeatherJob?.cancel()
         currentWeatherJob = launch {
             try {
-                isLoadingInternal.postValue(true)
+                currentWeatherInternal.postValue(Atom.Loading())
                 val location = Coordinate(30.392231, 59.87092)
                 val currentWeather = weatherRepository.getCurrentWeatherByLocation(
                     location.latitude,
@@ -36,8 +41,6 @@ class MainScreenViewModel(kodein: Kodein) : KodeinViewModel(kodein) {
             } catch (exception: Exception) {
                 exception.printStackTrace()
                 currentWeatherInternal.postValue(Atom.Error(exception))
-            } finally {
-                isLoadingInternal.postValue(false)
             }
         }
     }

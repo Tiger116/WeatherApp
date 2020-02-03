@@ -11,7 +11,9 @@ sealed class Atom<T> {
         val throwable: Throwable
     ) : Atom<T>()
 
+    fun isLoading() = this is Loading
+
     fun isSuccess() = this is Success
 
-    fun isError() = this is java.lang.Error
+    fun isError() = this is Error
 }

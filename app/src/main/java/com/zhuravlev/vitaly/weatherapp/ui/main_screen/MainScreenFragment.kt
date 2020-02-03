@@ -41,7 +41,8 @@ class MainScreenFragment : KodeinFragment() {
         viewModel.currentWeatherLiveData.observe {
             when (it) {
                 is Atom.Success -> {
-                    binding.weather = it.content
+                    val currentWeather = it.content
+                    kodeinActivity.supportActionBar?.title = currentWeather.name
                 }
                 is Atom.Error -> {
                     val exception = it.throwable
@@ -60,6 +61,7 @@ class MainScreenFragment : KodeinFragment() {
                 }
             }
         }
+
         viewModel.getCurrentWeather()
     }
 }

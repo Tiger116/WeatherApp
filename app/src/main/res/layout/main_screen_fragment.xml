@@ -5,13 +5,12 @@
 
     <data>
 
+        <import type="com.zhuravlev.vitaly.weatherapp.base.atom.Atom" />
+
         <variable
             name="viewModel"
             type="com.zhuravlev.vitaly.weatherapp.ui.main_screen.MainScreenViewModel" />
 
-        <variable
-            name="weather"
-            type="com.zhuravlev.vitaly.weatherapp.model.weather.structures.CurrentWeather" />
     </data>
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
@@ -19,7 +18,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/colorPrimary"
-        app:refreshing="@{viewModel.isLoadingLiveData}"
+        app:refreshing="@{viewModel.currentWeatherLiveData.isLoading()}"
         tools:context=".ui.main_screen.MainScreenFragment">
 
         <androidx.core.widget.NestedScrollView
@@ -32,59 +31,52 @@
                 android:layout_margin="20dp">
 
                 <TextView
-                    android:id="@+id/current_weather_place"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@{weather.name}"
-                    android:textAlignment="center"
-                    android:textSize="20sp"
-                    app:layout_constraintTop_toTopOf="parent"
-                    tools:text="Saint-Petersburg" />
-
-                <TextView
                     android:id="@+id/current_weather_value"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
-                    android:text="@{@string/current_weather_mask(weather.main.temperature)}"
+                    android:text="@{@string/current_weather_mask(viewModel.weatherLiveData.main.temperature)}"
                     android:textSize="60sp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/current_weather_place"
+                    app:layout_constraintTop_toTopOf="parent"
                     tools:text="20 °" />
+
+                <ImageView
+                    android:id="@+id/current_weather_icon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    app:error="@{@drawable/ic_cloud}"
+                    app:icon="@{viewModel.weatherLiveData.weather.get(0).icon}"
+                    app:layout_constraintEnd_toStartOf="@id/current_weather_status"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/current_weather_value"
+                    tools:src="@drawable/ic_cloud" />
+
+                <TextView
+                    android:id="@+id/current_weather_status"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:textSize="20sp"
+                    app:capitalize="@{true}"
+                    app:layout_constraintBottom_toBottomOf="@id/current_weather_icon"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/current_weather_icon"
+                    app:layout_constraintTop_toTopOf="@id/current_weather_icon"
+                    app:text="@{viewModel.weatherLiveData.weather.get(0).description}"
+                    tools:text="Rain" />
 
                 <TextView
                     android:id="@+id/current_weather_wind"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
-                    android:text="@{@string/current_weather_wind_mask(weather.wind.speed)}"
+                    android:text="@{@string/current_weather_wind_mask(viewModel.weatherLiveData.wind.speed)}"
                     android:textSize="20sp"
-                    app:layout_constraintEnd_toStartOf="@id/current_weather_status"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/current_weather_value"
+                    app:layout_constraintTop_toBottomOf="@id/current_weather_icon"
                     tools:text="5 m/s" />
-
-                <TextView
-                    android:id="@+id/current_weather_status"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
-                    android:text="@{weather.weather.get(0).description}"
-                    android:textSize="20sp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@id/current_weather_wind"
-                    app:layout_constraintTop_toBottomOf="@id/current_weather_value"
-                    tools:text="Rain" />
-
-                <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    app:icon="@{weather.weather.get(0).icon}"
-                    app:layout_constraintDimensionRatio="W,1:1"
-                    app:layout_constraintTop_toBottomOf="@id/current_weather_wind"
-                    app:placeholder="@{@drawable/ic_launcher_foreground}"
-                    tools:src="@drawable/ic_launcher_foreground" />
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.core.widget.NestedScrollView>
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
