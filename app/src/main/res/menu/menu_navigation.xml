@@ -3,9 +3,9 @@
     <item
         android:id="@+id/menu_choose_city"
         android:icon="@drawable/ic_choose_city"
-        android:title="@string/menu_choose_city" />
+        android:title="@string/choose_city_screen_title" />
     <item
         android:id="@+id/menu_settings"
         android:icon="@drawable/ic_settings"
-        android:title="@string/menu_settings_title" />
+        android:title="@string/settings_screen_title" />
 </menu>

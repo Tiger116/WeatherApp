@@ -1,12 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Weather App</string>
-    <string name="main_screen_label">Главная</string>
-    <string name="menu_settings_title">Настройки</string>
-    <string name="menu_choose_city">Выбрать город</string>
-    <string name="ok">OK</string>
-    <string name="undefined_error_message">Произошла неизвестная ошибка. Повторите попытку позже</string>
-    <string name="current_weather_mask">%.0f°</string>
+    <string name="app_name">Weather</string>
+
+    <!-- Navigation -->
+    <string name="main_screen_label">Main</string>
+    <string name="settings_screen_title">Settings</string>
+    <string name="choose_city_screen_title">Choose city</string>
+
+    <!-- Current weather -->
+    <string name="current_weather_mask" translatable="false">%.0f°</string>
+    <string name="temperature_min_max_mask" translatable="false">%.0f°..%.0f°</string>
+    <string name="temperature_feels_like_mask">Feels like %.0f°</string>
     <string name="wind_speed_mask">%.0f m/s</string>
-    <string name="temperature_min_max_mask">%.0f°..%.0f°</string>
-    <string name="temperature_feels_like_mask">Ощущается как %.0f°</string>
+    <string name="pressure_value_mask">mmHg</string>
+    <string name="humidity_mask" translatable="false">%d %%</string>
+    <string name="wind_label">Wind</string>
+    <string name="pressure_label">Pressure</string>
+    <string name="humidity_label">Humidity</string>
+
+    <!-- Wind directions -->
+    <string name="north_westerly_wind_description">NW</string>
+    <string name="westerly_wind_description">W</string>
+    <string name="south_westerly_wind_description">SW</string>
+    <string name="south_wind_description">S</string>
+    <string name="south_easterly_wind_description">SE</string>
+    <string name="easterly_wind_description">E</string>
+    <string name="north_easterly_wind_description">NE</string>
+    <string name="northerly_wind_description">N</string>
+
+    <!-- Other -->
+    <string name="ok">OK</string>
+    <string name="undefined_error_message">An unknown error has occurred. Please try again later</string>
 </resources>

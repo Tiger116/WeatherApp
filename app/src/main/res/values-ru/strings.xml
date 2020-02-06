@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Погода</string>
+
+    <!-- Navigation -->
+    <string name="main_screen_label">Главная</string>
+    <string name="settings_screen_title">Настройки</string>
+    <string name="choose_city_screen_title">Выбрать город</string>
+
+    <!-- Current weather -->
+    <string name="temperature_feels_like_mask">Ощущается как %.0f°</string>
+    <string name="wind_speed_mask">%.0f м/c</string>
+    <string name="pressure_value_mask">мм рт. ст.</string>
+    <string name="wind_label">Ветер</string>
+    <string name="pressure_label">Давление</string>
+    <string name="humidity_label">Влажность</string>
+
+    <!-- Wind directions -->
+    <string name="north_westerly_wind_description">СЗ</string>
+    <string name="westerly_wind_description">З</string>
+    <string name="south_westerly_wind_description">ЮЗ</string>
+    <string name="south_wind_description">Ю</string>
+    <string name="south_easterly_wind_description">ЮВ</string>
+    <string name="easterly_wind_description">В</string>
+    <string name="north_easterly_wind_description">СВ</string>
+    <string name="northerly_wind_description">С</string>
+
+    <!-- Other -->
+    <string name="ok">Хорошо</string>
+    <string name="undefined_error_message">Произошла неизвестная ошибка. Повторите попытку позже</string>
+</resources>

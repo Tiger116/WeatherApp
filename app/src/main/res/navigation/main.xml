@@ -1,11 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     app:startDestination="@id/mainScreenFragment">
 
     <fragment
         android:id="@+id/mainScreenFragment"
-        android:name="com.zhuravlev.vitaly.weatherapp.ui.main_screen.MainScreenFragment"
-        android:label="@string/main_screen_label" />
+        android:name="com.zhuravlev.vitaly.weatherapp.ui.main.MainScreenFragment"
+        android:label="@string/main_screen_label"
+        tools:layout="@layout/fragment_main_screen" />
+    <fragment
+        android:id="@+id/chooseCityFragment"
+        android:name="com.zhuravlev.vitaly.weatherapp.ui.choose_city.ChooseCityFragment"
+        android:label="@string/choose_city_screen_title"
+        tools:layout="@layout/fragment_choose_city">
+        <action
+            android:id="@+id/action_chooseCityFragment_to_mainScreenFragment"
+            app:destination="@id/mainScreenFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="com.zhuravlev.vitaly.weatherapp.ui.settings.SettingsFragment"
+        android:label="@string/settings_screen_title"
+        tools:layout="@layout/fragment_settings" />
 </navigation>

@@ -48,9 +48,11 @@ class MainActivity : KodeinActivity(), NavigationView.OnNavigationItemSelectedLi
         drawerLayout.closeDrawer(GravityCompat.START)
         return when (item.itemId) {
             R.id.menu_choose_city -> {
+                navController.navigate(R.id.chooseCityFragment)
                 true
             }
             R.id.menu_settings -> {
+                navController.navigate(R.id.settingsFragment)
                 true
             }
             else -> false

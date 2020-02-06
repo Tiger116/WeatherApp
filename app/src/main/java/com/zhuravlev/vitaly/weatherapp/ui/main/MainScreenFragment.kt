@@ -1,4 +1,4 @@
-package com.zhuravlev.vitaly.weatherapp.ui.main_screen
+package com.zhuravlev.vitaly.weatherapp.ui.main
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -8,19 +8,19 @@ import com.zhuravlev.vitaly.weatherapp.R
 import com.zhuravlev.vitaly.weatherapp.base.atom.Atom
 import com.zhuravlev.vitaly.weatherapp.base.kodein.KodeinFragment
 import com.zhuravlev.vitaly.weatherapp.base.snackbar.Snackbar
-import com.zhuravlev.vitaly.weatherapp.databinding.MainScreenFragmentBinding
+import com.zhuravlev.vitaly.weatherapp.databinding.FragmentMainScreenBinding
 
 class MainScreenFragment : KodeinFragment() {
     private val viewModel: MainScreenViewModel by lazy {
         provide(MainScreenViewModel::class.java)
     }
-    private lateinit var binding: MainScreenFragmentBinding
+    private lateinit var binding: FragmentMainScreenBinding
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = MainScreenFragmentBinding.inflate(inflater)
+        binding = FragmentMainScreenBinding.inflate(inflater)
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
 
@@ -42,16 +42,16 @@ class MainScreenFragment : KodeinFragment() {
             when (it) {
                 is Atom.Success -> {
                     val currentWeather = it.content
+
+                    // Set toolbar title
                     kodeinActivity.supportActionBar?.title = currentWeather.placeName
                 }
                 is Atom.Error -> {
                     val exception = it.throwable
-                    exception.message?.let { message ->
-                        Snackbar().showMessage(
-                            requireContext(),
-                            message
-                        )
-                    }
+                    Snackbar().showMessage(
+                        requireContext(),
+                        exception.message ?: getString(R.string.undefined_error_message)
+                    )
                 }
                 null -> {
                     Snackbar().showMessage(
