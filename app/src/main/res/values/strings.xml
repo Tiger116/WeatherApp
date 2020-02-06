@@ -13,10 +13,11 @@
     <string name="temperature_feels_like_mask">Feels like %.0f°</string>
     <string name="wind_speed_mask">%.0f m/s</string>
     <string name="pressure_value_mask">mmHg</string>
-    <string name="humidity_mask" translatable="false">%d %%</string>
-    <string name="wind_label">Wind</string>
-    <string name="pressure_label">Pressure</string>
-    <string name="humidity_label">Humidity</string>
+    <string name="percentage_mask" translatable="false">%d %%</string>
+    <string name="wind_label">Wind:</string>
+    <string name="pressure_label">Pressure:</string>
+    <string name="humidity_label">Humidity:</string>
+    <string name="cloudiness_label">Cloudiness:</string>
 
     <!-- Wind directions -->
     <string name="north_westerly_wind_description">NW</string>
@@ -31,4 +32,5 @@
     <!-- Other -->
     <string name="ok">OK</string>
     <string name="undefined_error_message">An unknown error has occurred. Please try again later</string>
+    <string name="weather_icon_description">Weather icon</string>
 </resources>

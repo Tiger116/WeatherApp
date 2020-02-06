@@ -35,7 +35,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@{viewModel.dateLiveData}"
-                    android:textSize="16sp"
+                    android:textSize="20sp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
@@ -53,7 +53,8 @@
                     app:layout_constraintEnd_toStartOf="@id/current_weather_value"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="@id/current_weather_value"
-                    tools:src="@drawable/ic_launcher_foreground" />
+                    tools:src="@drawable/ic_launcher_foreground"
+                    android:contentDescription="@string/weather_icon_description" />
 
                 <TextView
                     android:id="@+id/current_weather_value"
@@ -72,7 +73,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@{@string/temperature_min_max_mask(viewModel.weatherLiveData.main.temperatureMin, viewModel.weatherLiveData.main.temperatureMax)}"
-                    android:textSize="16sp"
+                    android:textSize="20sp"
                     app:layout_constraintBottom_toTopOf="@id/current_weather_feels_like"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="@id/current_weather_value"
@@ -84,7 +85,7 @@
                     android:layout_height="wrap_content"
                     android:text="@{@string/temperature_feels_like_mask(viewModel.weatherLiveData.main.temperatureMin, viewModel.weatherLiveData.main.temperatureMax)}"
                     android:textAlignment="textEnd"
-                    android:textSize="16sp"
+                    android:textSize="20sp"
                     app:layout_constraintBottom_toBottomOf="@id/current_weather_value"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/current_weather_min_max"
@@ -180,11 +181,34 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="16dp"
-                    android:text="@{@string/humidity_mask(viewModel.weatherLiveData.main.humidity)}"
+                    android:text="@{@string/percentage_mask(viewModel.weatherLiveData.main.humidity)}"
                     android:textSize="20sp"
                     app:layout_constraintStart_toEndOf="@id/current_weather_humidity_label"
                     app:layout_constraintTop_toBottomOf="@id/current_weather_pressure_label"
                     tools:text="73 %" />
+
+                <TextView
+                    android:id="@+id/current_weather_cloudiness_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:text="@string/cloudiness_label"
+                    android:textSize="20sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/current_weather_humidity_label"
+                    tools:text="@string/cloudiness_label" />
+
+                <TextView
+                    android:id="@+id/current_weather_cloudiness_value"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="16dp"
+                    android:text="@{@string/percentage_mask(viewModel.weatherLiveData.clouds.all)}"
+                    android:textSize="20sp"
+                    app:layout_constraintStart_toEndOf="@id/current_weather_cloudiness_label"
+                    app:layout_constraintTop_toBottomOf="@id/current_weather_humidity_label"
+                    tools:text="60 %" />
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.core.widget.NestedScrollView>
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

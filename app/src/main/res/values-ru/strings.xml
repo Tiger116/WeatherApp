@@ -11,9 +11,10 @@
     <string name="temperature_feels_like_mask">Ощущается как %.0f°</string>
     <string name="wind_speed_mask">%.0f м/c</string>
     <string name="pressure_value_mask">мм рт. ст.</string>
-    <string name="wind_label">Ветер</string>
-    <string name="pressure_label">Давление</string>
-    <string name="humidity_label">Влажность</string>
+    <string name="wind_label">Ветер:</string>
+    <string name="pressure_label">Давление:</string>
+    <string name="humidity_label">Влажность:</string>
+    <string name="cloudiness_label">Облачность:</string>
 
     <!-- Wind directions -->
     <string name="north_westerly_wind_description">СЗ</string>
@@ -28,4 +29,5 @@
     <!-- Other -->
     <string name="ok">Хорошо</string>
     <string name="undefined_error_message">Произошла неизвестная ошибка. Повторите попытку позже</string>
+    <string name="weather_icon_description">Иконка погоды</string>
 </resources>
