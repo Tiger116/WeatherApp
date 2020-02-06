@@ -52,12 +52,14 @@ class MainScreenFragment : KodeinFragment() {
                         requireContext(),
                         exception.message ?: getString(R.string.undefined_error_message)
                     )
+                    kodeinActivity.supportActionBar?.title = getString(R.string.main_screen_label)
                 }
                 null -> {
                     Snackbar().showMessage(
                         requireContext(),
                         getString(R.string.undefined_error_message)
                     )
+                    kodeinActivity.supportActionBar?.title = getString(R.string.main_screen_label)
                 }
             }
         }
