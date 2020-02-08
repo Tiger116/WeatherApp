@@ -27,29 +27,28 @@ class MainScreenViewModel(kodein: Kodein) : KodeinViewModel(kodein) {
     val currentWeatherLiveData = currentWeatherInternal.immutable()
 
     val weatherLiveData =
-        Transformations.map(currentWeatherLiveData) { atom: Atom<CurrentWeather> ->
-            if (atom is Atom.Success)
-                atom.content
+        Transformations.map(currentWeatherLiveData) {
+            if (it is Atom.Success)
+                it.content
             else null
         }
 
     val dateLiveData =
-        Transformations.map(currentWeatherLiveData) { atom: Atom<CurrentWeather> ->
-            if (atom is Atom.Success) {
-                val timestamp = Date(TimeUnit.SECONDS.toMillis(atom.content.dateTimestamp))
+        Transformations.map(currentWeatherLiveData) {
+            if (it is Atom.Success) {
+                val timestamp = Date(TimeUnit.SECONDS.toMillis(it.content.dateTimestamp))
                 SimpleDateFormat("dd MMMM HH:mm", Locale.getDefault()).format(timestamp)
             } else null
         }
 
-    fun getCurrentWeather() {
+    fun getCurrentWeather(coordinate: Coordinate = Coordinate(30.26, 59.89)) {
         currentWeatherJob?.cancel()
         currentWeatherJob = launch {
             try {
                 currentWeatherInternal.postValue(Atom.Loading())
-                val location = Coordinate(30.392231, 59.87092)
                 val currentWeather = weatherRepository.getCurrentWeatherByLocation(
-                    location.latitude,
-                    location.longitude
+                    coordinate.latitude,
+                    coordinate.longitude
                 )
                 currentWeatherInternal.postValue(Atom.Success(currentWeather))
             } catch (exception: Exception) {

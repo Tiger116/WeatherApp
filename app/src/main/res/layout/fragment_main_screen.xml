@@ -60,7 +60,6 @@
                     android:id="@+id/current_weather_value"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
                     android:layout_marginTop="8dp"
                     android:text="@{@string/current_weather_mask(viewModel.weatherLiveData.main.temperature)}"
                     android:textSize="60sp"

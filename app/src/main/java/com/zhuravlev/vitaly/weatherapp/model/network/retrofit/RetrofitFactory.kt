@@ -1,7 +1,5 @@
 package com.zhuravlev.vitaly.weatherapp.model.network.retrofit
 
-import android.os.Build
-import android.os.LocaleList
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import com.zhuravlev.vitaly.weatherapp.model.weather.structures.UnitsFormat
 import okhttp3.Interceptor
