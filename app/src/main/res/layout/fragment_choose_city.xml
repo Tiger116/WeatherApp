@@ -21,6 +21,16 @@
             android:layout_height="match_parent"
             tools:context=".ui.choose_city.ChooseCityFragment">
 
+            <EditText
+                android:id="@+id/search_edit_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:maxLines="1"
+                android:padding="@dimen/default_margin"
+                android:paddingTop="@dimen/default_margin"
+                android:singleLine="true"
+                app:layout_constraintTop_toTopOf="parent" />
+
             <TextView
                 android:id="@+id/my_location_item"
                 android:layout_width="match_parent"
@@ -30,16 +40,18 @@
                 android:drawableEnd="@drawable/ic_my_location"
                 android:drawablePadding="4dp"
                 android:focusable="true"
-                android:textSize="20sp"
                 android:padding="16dp"
                 android:text="@string/my_location"
                 android:textColor="@color/white"
-                app:layout_constraintTop_toTopOf="parent" />
+                android:textSize="20sp"
+                app:layout_constraintTop_toBottomOf="@id/search_edit_text" />
 
             <View
                 android:id="@+id/divider"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
+                android:layout_marginStart="@dimen/extra_small_margin"
+                android:layout_marginEnd="@dimen/extra_small_margin"
                 android:background="@color/white"
                 app:layout_constraintTop_toBottomOf="@id/my_location_item" />
 
