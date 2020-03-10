@@ -31,4 +31,5 @@
     <string name="undefined_error_message">Произошла неизвестная ошибка. Повторите попытку позже</string>
     <string name="weather_icon_description">Иконка погоды</string>
     <string name="my_location">Мое местоположение</string>
+    <string name="choose_city_input_text">Поиск</string>
 </resources>

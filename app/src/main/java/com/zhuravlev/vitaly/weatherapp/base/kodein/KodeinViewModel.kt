@@ -18,7 +18,5 @@ abstract class KodeinViewModel(override val kodein: Kodein) : ViewModel(), Corou
 
     override fun onCleared() = coroutineContext.cancel()
 
-    fun <T> mutableLiveData(initValue: T) = MutableLiveData<T>().apply { value = initValue }
-
     fun <T> MutableLiveData<T>.immutable() = this as LiveData<T>
 }

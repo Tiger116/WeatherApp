@@ -7,11 +7,9 @@ import org.kodein.di.generic.instance
 import org.kodein.di.generic.singleton
 import org.kodein.di.generic.with
 import retrofit2.Retrofit
-import java.util.*
 
 const val BASE_URL = "baseURL"
 const val APP_ID = "appId"
-const val LANGUAGE = "language"
 val retrofitModule = Kodein.Module("Retrofit") {
 
     constant(BASE_URL) with Constants.OPEN_WEATHER_BASE_URL

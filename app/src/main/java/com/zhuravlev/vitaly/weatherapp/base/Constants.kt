@@ -6,4 +6,5 @@ object Constants {
     const val OPEN_WEATHER_ICON_URL = "http://openweathermap.org/img/wn/"
     const val MM_HG_IN_HPA = 0.75006157584566
     const val APP_PREFERENCES = "shared_preferences"
+    const val ON_CLICK_DELAY = 1500L
 }
