@@ -41,7 +41,7 @@ class MainScreenViewModel(kodein: Kodein) : KodeinViewModel(kodein) {
             } else null
         }
 
-    fun getCurrentWeather(coordinate: Coordinate = Coordinate(30.26, 59.89)) {
+    fun getCurrentWeather(coordinate: Coordinate = Coordinate(59.89, 30.26)) {
         currentWeatherJob?.cancel()
         currentWeatherJob = launch {
             try {
