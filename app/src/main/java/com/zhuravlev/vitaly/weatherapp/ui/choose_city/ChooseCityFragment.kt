@@ -205,7 +205,6 @@ class ChooseCityFragment : KodeinFragment() {
                 .putBoolean(IS_MY_LOCATION_PREFERENCE, isMyLocation)
                 .apply()
         }
-        binding.root.hideKeyboard()
         findNavController().navigate(
             R.id.action_chooseCityFragment_to_mainScreenFragment,
             Bundle().apply {
