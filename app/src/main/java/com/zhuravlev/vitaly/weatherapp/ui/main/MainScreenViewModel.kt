@@ -50,7 +50,12 @@ class MainScreenViewModel(kodein: Kodein) : KodeinViewModel(kodein) {
                     coordinate.latitude,
                     coordinate.longitude
                 )
-                currentWeatherInternal.postValue(Atom.Success(currentWeather))
+                currentWeatherInternal.postValue(
+                    Atom.Success(
+                        if (coordinate.name.isNullOrBlank()) currentWeather
+                        else currentWeather.copy(placeName = coordinate.name)
+                    )
+                )
             } catch (exception: Exception) {
                 exception.printStackTrace()
                 currentWeatherInternal.postValue(Atom.Error(exception))

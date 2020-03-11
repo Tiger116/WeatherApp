@@ -88,7 +88,7 @@ class MainScreenFragment : KodeinFragment() {
 
     private fun updateCurrentWeather() {
         arguments?.getString(ChooseCityFragment.SAVED_COORDINATE_PREFERENCE)?.let {
-            val coordinate = Gson().fromJson<Coordinate>(it, Coordinate::class.java)
+            val coordinate = Gson().fromJson(it, Coordinate::class.java)
             viewModel.getCurrentWeather(coordinate)
         } ?: getSavedLocationFromSharedPrefs()
     }
@@ -112,7 +112,7 @@ class MainScreenFragment : KodeinFragment() {
                 }
             } else {
                 getString(ChooseCityFragment.SAVED_COORDINATE_PREFERENCE, null)?.let {
-                    val coordinate = Gson().fromJson<Coordinate>(it, Coordinate::class.java)
+                    val coordinate = Gson().fromJson(it, Coordinate::class.java)
                     viewModel.getCurrentWeather(coordinate)
                 } ?: viewModel.getCurrentWeather()
             }
@@ -145,13 +145,13 @@ class MainScreenFragment : KodeinFragment() {
                 context?.getSystemService(Context.LOCATION_SERVICE) as LocationManager
             val location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER)
             location?.let {
-                viewModel.getCurrentWeather(Coordinate(it.longitude, it.latitude))
+                viewModel.getCurrentWeather(Coordinate(it.latitude, it.longitude))
             } ?: locationManager.requestSingleUpdate(
                 LocationManager.NETWORK_PROVIDER,
                 object : LocationListener {
                     override fun onLocationChanged(location: Location?) {
                         location?.let {
-                            viewModel.getCurrentWeather(Coordinate(it.longitude, it.latitude))
+                            viewModel.getCurrentWeather(Coordinate(it.latitude, it.longitude))
                         }
                     }
 

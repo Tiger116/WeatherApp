@@ -19,13 +19,11 @@ import com.google.android.libraries.places.api.model.TypeFilter
 import com.google.android.libraries.places.widget.Autocomplete
 import com.google.android.libraries.places.widget.AutocompleteActivity
 import com.google.android.libraries.places.widget.model.AutocompleteActivityMode
-import com.google.gson.Gson
 import com.zhuravlev.vitaly.weatherapp.R
 import com.zhuravlev.vitaly.weatherapp.base.Constants
-import com.zhuravlev.vitaly.weatherapp.base.extension.hideKeyboard
 import com.zhuravlev.vitaly.weatherapp.base.extension.onDelayedClick
-import com.zhuravlev.vitaly.weatherapp.base.extension.showKeyboard
 import com.zhuravlev.vitaly.weatherapp.base.kodein.KodeinFragment
+import com.zhuravlev.vitaly.weatherapp.base.snackbar.Snackbar
 import com.zhuravlev.vitaly.weatherapp.databinding.FragmentChooseCityBinding
 import com.zhuravlev.vitaly.weatherapp.model.weather.structures.Coordinate
 
@@ -43,6 +41,18 @@ class ChooseCityFragment : KodeinFragment() {
     }
     private lateinit var binding: FragmentChooseCityBinding
 
+    private val locationListener = object : LocationListener {
+        override fun onLocationChanged(location: Location?) {
+            location?.let {
+                viewModel.setCoordinate(it.latitude, it.longitude)
+                saveAndBack(true)
+            }
+        }
+
+        override fun onStatusChanged(provider: String?, status: Int, extras: Bundle?) {}
+        override fun onProviderEnabled(provider: String?) {}
+        override fun onProviderDisabled(provider: String?) {}
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -51,11 +61,6 @@ class ChooseCityFragment : KodeinFragment() {
         binding = FragmentChooseCityBinding.inflate(inflater)
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
-
-        binding.swipeRefreshLayout.setColorSchemeResources(
-            R.color.colorPrimary,
-            R.color.colorPrimaryDark
-        )
 
         if (!Places.isInitialized()) {
             Places.initialize(requireContext(), googleApiKey)
@@ -67,40 +72,19 @@ class ChooseCityFragment : KodeinFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.swipeRefreshLayout.setOnRefreshListener {
-            binding.swipeRefreshLayout.isRefreshing = false
-        }
         binding.myLocationItem.onDelayedClick {
             requestPermissionsAndGetLocation()
         }
-//        binding.searchEditText.addTextChangedListener(object : TextWatcher {
-////            override fun afterTextChanged(s: Editable?) {
-////                s?.let { searchText ->
-////                    viewModel.searchResultByText(searchText.toString())
-////                }
-////            }
-////
-////            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-////
-////            override fun onTextChanged(
-////                address: CharSequence?,
-////                start: Int,
-////                before: Int,
-////                count: Int
-////            ) {
-////            }
-////        })
-        binding.searchEditText.onDelayedClick {
+        binding.searchTextView.onDelayedClick {
             context?.let { context ->
                 val intent = Autocomplete.IntentBuilder(
                         AutocompleteActivityMode.FULLSCREEN,
-                        listOf(Place.Field.LAT_LNG, Place.Field.ADDRESS)
+                        listOf(Place.Field.LAT_LNG, Place.Field.NAME)
                     ).setTypeFilter(TypeFilter.CITIES)
                     .build(context)
                 startActivityForResult(intent, AUTOCOMPLETE_REQUEST)
             }
         }
-        binding.searchEditText.showKeyboard()
     }
 
     override fun onRequestPermissionsResult(
@@ -123,19 +107,19 @@ class ChooseCityFragment : KodeinFragment() {
         if (requestCode == AUTOCOMPLETE_REQUEST) {
             when (resultCode) {
                 AutocompleteActivity.RESULT_OK -> {
-                    data?.let { data ->
-                        val place = Autocomplete.getPlaceFromIntent(data)
-                        place.latLng?.let { saveAndBack(Coordinate(it.longitude, it.latitude)) }
+                    data?.let { intent ->
+                        val place = Autocomplete.getPlaceFromIntent(intent)
+                        place.latLng?.let {
+                            viewModel.setCoordinate(it.latitude, it.longitude, place.name)
+                            saveAndBack()
+                        }
                     }
                 }
                 AutocompleteActivity.RESULT_ERROR -> {
-
-                }
-                AutocompleteActivity.RESULT_CANCELED -> {
-
-                }
-                else -> {
-
+                    Snackbar().showMessage(
+                        requireContext(),
+                        getString(R.string.places_search_error)
+                    )
                 }
             }
         }
@@ -163,54 +147,43 @@ class ChooseCityFragment : KodeinFragment() {
             ) == PackageManager.PERMISSION_GRANTED
         ) {
             val locationManager =
-                context?.getSystemService(Context.LOCATION_SERVICE) as LocationManager
+                context?.getSystemService(Context.LOCATION_SERVICE) as LocationManager?
+
             val location =
-                locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER)
+                locationManager?.getLastKnownLocation(LocationManager.NETWORK_PROVIDER)
+
             location?.let {
-                saveAndBack(Coordinate(it.longitude, it.latitude), true)
-            } ?: locationManager.requestSingleUpdate(
+                viewModel.setCoordinate(it.latitude, it.longitude)
+                saveAndBack(true)
+            } ?: locationManager?.requestSingleUpdate(
                 LocationManager.NETWORK_PROVIDER,
-                object : LocationListener {
-                    override fun onLocationChanged(location: Location?) {
-                        location?.let {
-                            saveAndBack(
-                                Coordinate(it.latitude, it.longitude),
-                                true
-                            )
-                        }
-                    }
-
-                    override fun onStatusChanged(
-                        provider: String?,
-                        status: Int,
-                        extras: Bundle?
-                    ) {
-                    }
-
-                    override fun onProviderEnabled(provider: String?) {}
-                    override fun onProviderDisabled(provider: String?) {}
-                }, null
+                locationListener,
+                null
             )
-
         }
     }
 
-    private fun saveAndBack(coordinate: Coordinate, isMyLocation: Boolean = false) {
-        val coordinateString = Gson().toJson(coordinate)
-        context?.run {
-            val sharedPreferences =
-                getSharedPreferences(Constants.APP_PREFERENCES, Context.MODE_PRIVATE)
-            sharedPreferences.edit()
-                .putString(SAVED_COORDINATE_PREFERENCE, coordinateString)
-                .putBoolean(IS_MY_LOCATION_PREFERENCE, isMyLocation)
-                .apply()
+    private fun saveAndBack(isMyLocation: Boolean = false) {
+        val coordinateJson = viewModel.getCoordinateJson()
+
+        context?.let { saveCoordinateToSharedPrefs(it, coordinateJson, isMyLocation) }
+
+        val args = Bundle().apply {
+            putString(SAVED_COORDINATE_PREFERENCE, coordinateJson)
         }
-        findNavController().navigate(
-            R.id.action_chooseCityFragment_to_mainScreenFragment,
-            Bundle().apply {
-                putString(
-                    SAVED_COORDINATE_PREFERENCE, coordinateString
-                )
-            })
+        findNavController().navigate(R.id.action_chooseCityFragment_to_mainScreenFragment, args)
+    }
+
+    private fun saveCoordinateToSharedPrefs(
+        context: Context,
+        coordinateString: String,
+        isMyLocation: Boolean = false
+    ) {
+        val sharedPreferences =
+            context.getSharedPreferences(Constants.APP_PREFERENCES, Context.MODE_PRIVATE)
+        sharedPreferences.edit()
+            .putString(SAVED_COORDINATE_PREFERENCE, coordinateString)
+            .putBoolean(IS_MY_LOCATION_PREFERENCE, isMyLocation)
+            .apply()
     }
 }
