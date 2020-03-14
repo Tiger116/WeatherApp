@@ -8,6 +8,7 @@ import android.location.Location
 import android.location.LocationListener
 import android.location.LocationManager
 import android.os.Bundle
+import android.util.Base64
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -19,13 +20,13 @@ import com.google.android.libraries.places.api.model.TypeFilter
 import com.google.android.libraries.places.widget.Autocomplete
 import com.google.android.libraries.places.widget.AutocompleteActivity
 import com.google.android.libraries.places.widget.model.AutocompleteActivityMode
+import com.zhuravlev.vitaly.weatherapp.BuildConfig
 import com.zhuravlev.vitaly.weatherapp.R
 import com.zhuravlev.vitaly.weatherapp.base.Constants
 import com.zhuravlev.vitaly.weatherapp.base.extension.onDelayedClick
 import com.zhuravlev.vitaly.weatherapp.base.kodein.KodeinFragment
 import com.zhuravlev.vitaly.weatherapp.base.snackbar.Snackbar
 import com.zhuravlev.vitaly.weatherapp.databinding.FragmentChooseCityBinding
-import com.zhuravlev.vitaly.weatherapp.model.weather.structures.Coordinate
 
 class ChooseCityFragment : KodeinFragment() {
     companion object {
@@ -33,7 +34,6 @@ class ChooseCityFragment : KodeinFragment() {
         const val AUTOCOMPLETE_REQUEST = 101
         const val SAVED_COORDINATE_PREFERENCE = "savedCoordinate"
         const val IS_MY_LOCATION_PREFERENCE = "isMyLocation"
-        private const val googleApiKey = "AIzaSyCqERM0OGg0RSvzT1-BNhGPRTVaAsaxXGA"
     }
 
     private val viewModel: ChooseCityViewModel by lazy {
@@ -63,7 +63,8 @@ class ChooseCityFragment : KodeinFragment() {
         binding.viewModel = viewModel
 
         if (!Places.isInitialized()) {
-            Places.initialize(requireContext(), googleApiKey)
+            val bytes = Base64.decode(BuildConfig.GOOGLE_API_KEY.toByteArray(), Base64.DEFAULT)
+            Places.initialize(requireContext(), String(bytes))
         }
 
         return binding.root
@@ -78,9 +79,9 @@ class ChooseCityFragment : KodeinFragment() {
         binding.searchTextView.onDelayedClick {
             context?.let { context ->
                 val intent = Autocomplete.IntentBuilder(
-                        AutocompleteActivityMode.FULLSCREEN,
-                        listOf(Place.Field.LAT_LNG, Place.Field.NAME)
-                    ).setTypeFilter(TypeFilter.CITIES)
+                    AutocompleteActivityMode.FULLSCREEN,
+                    listOf(Place.Field.LAT_LNG, Place.Field.NAME)
+                ).setTypeFilter(TypeFilter.CITIES)
                     .build(context)
                 startActivityForResult(intent, AUTOCOMPLETE_REQUEST)
             }

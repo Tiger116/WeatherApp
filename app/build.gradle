@@ -10,9 +10,10 @@ android {
         applicationId "com.zhuravlev.vitaly.weatherapp"
         minSdkVersion 21
         targetSdkVersion 29
-        versionCode 103
-        versionName "1.0.3"
+        versionCode 104
+        versionName "1.0.4"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        buildConfigField "String", 'GOOGLE_API_KEY', "\"QUl6YVN5QXN3T3M4QUhiWjRDRUlSclBsZUY5czFnR3AzM3BCQkNB\""
     }
     buildTypes {
         debug {
